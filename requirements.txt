@@ -25,3 +25,7 @@ streamlit==1.58.0
 
 # --- Config / secrets loading ---
 python-dotenv==1.2.2
+pydantic-settings==2.14.1
+
+# --- TLS: use the OS trust store (handles AV/proxy HTTPS interception) ---
+truststore==0.10.4
