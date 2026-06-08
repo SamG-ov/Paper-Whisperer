@@ -1,10 +1,10 @@
 # PaperWhisperer dependencies (direct dependencies only, exact-pinned).
 #
-# Versions are pinned with == for reproducible builds: anyone who clones this
-# repo gets the exact environment it was developed and tested against.
+# This is a MANIFEST (curated direct deps), not a lockfile. Do NOT overwrite
+# it with `pip freeze`. If you want a full lockfile, write a SEPARATE file
+# (e.g. pip freeze > requirements.lock).
 #
-# Install:  py -m pip install -r requirements.txt
-# (Tip: use Python 3.12 — the ML ecosystem's prebuilt wheels lag newer Pythons.)
+# Install:  py -m pip install -r requirements.txt   (use Python 3.12)
 
 # --- Orchestration framework (version-locked family) ---
 langchain==0.3.30
@@ -13,7 +13,7 @@ langchain-community==0.3.31
 # --- LLM + embeddings provider (Google Gemini) ---
 langchain-google-genai==2.1.12
 
-# --- Vector database (1.x ships prebuilt wheels — no C++ compiler needed) ---
+# --- Vector database (1.x ships prebuilt wheels) ---
 langchain-chroma==0.2.6
 chromadb==1.5.9
 
