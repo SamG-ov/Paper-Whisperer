@@ -1,0 +1,27 @@
+# PaperWhisperer dependencies (direct dependencies only, exact-pinned).
+#
+# Versions are pinned with == for reproducible builds: anyone who clones this
+# repo gets the exact environment it was developed and tested against.
+#
+# Install:  py -m pip install -r requirements.txt
+# (Tip: use Python 3.12 — the ML ecosystem's prebuilt wheels lag newer Pythons.)
+
+# --- Orchestration framework (version-locked family) ---
+langchain==0.3.30
+langchain-community==0.3.31
+
+# --- LLM + embeddings provider (Google Gemini) ---
+langchain-google-genai==2.1.12
+
+# --- Vector database (1.x ships prebuilt wheels — no C++ compiler needed) ---
+langchain-chroma==0.2.6
+chromadb==1.5.9
+
+# --- PDF parsing ---
+pypdf==6.13.0
+
+# --- Web UI ---
+streamlit==1.58.0
+
+# --- Config / secrets loading ---
+python-dotenv==1.2.2

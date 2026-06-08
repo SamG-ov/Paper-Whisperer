@@ -1,0 +1,31 @@
+# ---- Secrets: NEVER commit these ----
+.env
+*.key
+
+# ---- Python virtual environments ----
+.venv/
+venv/
+env/
+
+# ---- Python build / cache artifacts ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# ---- Vector DB / runtime data (regenerated, machine-specific) ----
+data/chroma/
+data/*.pdf
+
+# ---- Tooling caches ----
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---- IDE / OS noise ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
