@@ -27,7 +27,7 @@ class Settings(BaseSettings):
 
     # --- Model choices (Gemini covers both embeddings and chat) ---
     embedding_model: str = "models/gemini-embedding-001"
-    chat_model: str = "gemini-2.0-flash"
+    chat_model: str = "gemini-2.5-flash"
 
     # --- Vector store location ---
     chroma_dir: str = "data/chroma"
