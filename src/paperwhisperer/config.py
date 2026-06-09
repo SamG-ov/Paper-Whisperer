@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     chroma_dir: str = "data/chroma"
     collection_name: str = "paperwhisperer"
 
+    # --- Retrieval ---
+    top_k: int = 4  # how many chunks to retrieve per query
+
 
 # A single shared instance imported across the app.
 settings = Settings()
