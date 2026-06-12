@@ -29,14 +29,19 @@ def _chunk_id(doc: Document) -> str:
     return f"{meta.get('source')}:{meta.get('page')}:{meta.get('start_index')}"
 
 
-def index_documents(chunks: list[Document]) -> Chroma:
+def index_documents(chunks: list[Document], store: Chroma | None = None) -> Chroma:
     """Embed and store chunks, returning the (now-populated) vector store.
 
     Embedding happens inside add_documents: Chroma calls our embeddings
     function on each chunk's text and stores the resulting vectors. Passing
     deterministic ids makes this idempotent (upsert, not append).
+
+    Args:
+        chunks: chunk Documents to index.
+        store: an existing Chroma store to add to (e.g. a UI-cached client).
+            If None, a new one is opened.
     """
-    store = get_vector_store()
+    store = store or get_vector_store()
     ids = [_chunk_id(c) for c in chunks]
     store.add_documents(documents=chunks, ids=ids)
     return store

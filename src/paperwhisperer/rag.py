@@ -39,6 +39,23 @@ def format_docs(docs: list[Document]) -> str:
     )
 
 
+def build_answer_chain():
+    """Build the streamable chain: {context: [docs], question} -> answer str.
+
+    This is the generation half (no retrieval). It's streamable, so the UI can
+    render tokens live via st.write_stream.
+    """
+    prompt = ChatPromptTemplate.from_messages(
+        [("system", SYSTEM_PROMPT), ("human", HUMAN_PROMPT)]
+    )
+    return (
+        RunnablePassthrough.assign(context=lambda x: format_docs(x["context"]))
+        | prompt
+        | get_llm()
+        | StrOutputParser()
+    )
+
+
 def build_rag_chain(k: int | None = None, search_type: str = "mmr"):
     """Build an LCEL chain that maps a question -> {answer, context, question}.
 
@@ -48,20 +65,8 @@ def build_rag_chain(k: int | None = None, search_type: str = "mmr"):
     extra = {"fetch_k": 20} if search_type == "mmr" else {}
     retriever = get_retriever(k=k, search_type=search_type, **extra)
 
-    prompt = ChatPromptTemplate.from_messages(
-        [("system", SYSTEM_PROMPT), ("human", HUMAN_PROMPT)]
-    )
-
-    # Given {context: [docs], question: str}, generate the answer string.
-    answer_chain = (
-        RunnablePassthrough.assign(context=lambda x: format_docs(x["context"]))
-        | prompt
-        | get_llm()
-        | StrOutputParser()
-    )
-
     # Retrieve once; expose both the source docs and the generated answer.
     return RunnableParallel(
         context=retriever,
         question=RunnablePassthrough(),
-    ).assign(answer=answer_chain)
+    ).assign(answer=build_answer_chain())

@@ -12,7 +12,7 @@ evaluation, and containerized deployment.
 | ---------------- | ------------------------------------------------- |
 | Language         | Python 3.12                                       |
 | Orchestration    | LangChain                                          |
-| LLM + Embeddings | Google Gemini (`gemini-2.0-flash`, `text-embedding-004`) |
+| LLM + Embeddings | Google Gemini (`gemini-2.5-flash`, `gemini-embedding-001`) |
 | Vector Database  | ChromaDB                                           |
 | UI               | Streamlit                                          |
 | Packaging        | Docker                                             |
@@ -23,12 +23,12 @@ Under active development — built milestone by milestone. See the roadmap below
 
 ## 🗺️ Roadmap
 
-- [ ] **M0** — Project foundations & setup
-- [ ] **M1** — PDF ingestion (load & extract text)
-- [ ] **M2** — Chunking
-- [ ] **M3** — Embeddings + vector store
-- [ ] **M4** — Retrieval
-- [ ] **M5** — Generation with citations
+- [x] **M0** — Project foundations & setup
+- [x] **M1** — PDF ingestion (load & extract text)
+- [x] **M2** — Chunking
+- [x] **M3** — Embeddings + vector store
+- [x] **M4** — Retrieval
+- [x] **M5** — Generation with citations
 - [ ] **M6** — Streamlit UI
 - [ ] **M7** — Evaluation & observability
 - [ ] **M8** — Advanced retrieval (re-ranking, hybrid search, caching)
@@ -36,17 +36,29 @@ Under active development — built milestone by milestone. See the roadmap below
 
 ## ⚙️ Setup
 
+**Prerequisites:** Python 3.12 (the ML wheel ecosystem lags newer versions) and a
+free [Google Gemini API key](https://aistudio.google.com/apikey).
+
 ```powershell
-# 1. Create and activate a virtual environment
-py -m venv .venv
+# 1. Create & activate a virtual environment (Python 3.12)
+py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 
-# 2. Install dependencies
-py -m pip install -r requirements.txt
+# 2. Install dependencies and the package
+pip install -r requirements.txt
+pip install -e .
 
 # 3. Configure secrets
 copy .env.example .env
-# then edit .env and add your Gemini API key
+# then edit .env and add your GOOGLE_API_KEY
+```
+
+## ▶️ Usage
+
+```powershell
+# Index a PDF, then ask grounded questions about it
+python scripts/index_pdf.py path/to/your.pdf
+python scripts/ask.py "What problem does this paper solve?"
 ```
 
 > ⚠️ This project uses Gemini's free tier for development. Only upload **public** PDFs —
