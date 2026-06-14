@@ -1,0 +1,22 @@
+[
+  {
+    "question": "What architecture does the paper introduce?",
+    "ground_truth": "The Transformer, a model architecture based entirely on attention mechanisms, dispensing with recurrence and convolutions."
+  },
+  {
+    "question": "How does the Transformer represent the order of words in a sequence?",
+    "ground_truth": "It adds positional encodings (sine and cosine functions of different frequencies) to the input embeddings."
+  },
+  {
+    "question": "What is multi-head attention?",
+    "ground_truth": "Running several attention functions in parallel over linearly projected queries, keys, and values, then concatenating and projecting the results, which lets the model attend to information from different representation subspaces."
+  },
+  {
+    "question": "What BLEU score did the big model achieve on the WMT 2014 English-to-German translation task?",
+    "ground_truth": "28.4 BLEU."
+  },
+  {
+    "question": "What is the capital of France?",
+    "ground_truth": "This is not covered in the document, so the assistant should say it could not find the answer."
+  }
+]
