@@ -9,4 +9,9 @@ import truststore as _truststore
 
 _truststore.inject_into_ssl()
 
+# Install the global LLM response cache at startup.
+from paperwhisperer.cache import setup_caching  # noqa: E402
+
+setup_caching()
+
 __version__ = "0.1.0"

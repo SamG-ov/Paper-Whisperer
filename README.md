@@ -29,9 +29,9 @@ Under active development — built milestone by milestone. See the roadmap below
 - [x] **M3** — Embeddings + vector store
 - [x] **M4** — Retrieval
 - [x] **M5** — Generation with citations
-- [ ] **M6** — Streamlit UI
-- [ ] **M7** — Evaluation & observability
-- [ ] **M8** — Advanced retrieval (re-ranking, hybrid search, caching)
+- [x] **M6** — Streamlit UI
+- [x] **M7** — Evaluation & observability
+- [x] **M8** — Advanced retrieval (hybrid search, caching)
 - [ ] **M9** — Dockerize & deploy
 
 ## ⚙️ Setup

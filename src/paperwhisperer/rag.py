@@ -13,7 +13,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 
 from paperwhisperer.llm import get_llm
-from paperwhisperer.retriever import get_retriever
+from paperwhisperer.retriever import get_hybrid_retriever
 
 SYSTEM_PROMPT = (
     "You are PaperWhisperer, a precise research assistant. Answer the "
@@ -56,14 +56,15 @@ def build_answer_chain():
     )
 
 
-def build_rag_chain(k: int | None = None, search_type: str = "mmr"):
+def build_rag_chain(retriever=None):
     """Build an LCEL chain that maps a question -> {answer, context, question}.
 
-    Returning the source documents alongside the answer lets callers display
-    citations and lets us debug what the model actually saw.
+    Defaults to the hybrid (vector + BM25) retriever. Returning the source
+    documents alongside the answer lets callers display citations and lets us
+    debug what the model actually saw.
     """
-    extra = {"fetch_k": 20} if search_type == "mmr" else {}
-    retriever = get_retriever(k=k, search_type=search_type, **extra)
+    if retriever is None:
+        retriever = get_hybrid_retriever()
 
     # Retrieve once; expose both the source docs and the generated answer.
     return RunnableParallel(

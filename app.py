@@ -15,6 +15,7 @@ import streamlit as st
 from paperwhisperer.ingestion.chunker import split_documents
 from paperwhisperer.ingestion.loader import load_pdf
 from paperwhisperer.rag import build_answer_chain
+from paperwhisperer.retriever import get_hybrid_retriever
 from paperwhisperer.vector_store import get_vector_store, index_documents
 
 st.set_page_config(page_title="PaperWhisperer", page_icon="📄")
@@ -31,6 +32,15 @@ def get_store():
 def get_answer_chain():
     """The streamable generation chain (built once)."""
     return build_answer_chain()
+
+
+@st.cache_resource
+def get_retriever():
+    """Hybrid (vector + BM25) retriever over the shared store, built once.
+
+    Cleared after indexing a new PDF so BM25 picks up the new chunks.
+    """
+    return get_hybrid_retriever(store=get_store())
 
 
 def unique_pages(docs) -> str:
@@ -52,6 +62,7 @@ with st.sidebar:
             tmp.write_bytes(uploaded.getvalue())
             chunks = split_documents(load_pdf(tmp))
             index_documents(chunks, store=get_store())
+            get_retriever.clear()  # rebuild BM25 with the new chunks
         st.success(f"Indexed {uploaded.name} — {len(chunks)} chunks.")
 
     st.caption(f"Vector store: {get_store()._collection.count()} chunks indexed.")
@@ -78,11 +89,8 @@ if question := st.chat_input("Ask a question about the document…"):
         st.markdown(question)
 
     with st.chat_message("assistant"):
-        # Retrieve from the shared cached store (single client).
-        retriever = get_store().as_retriever(
-            search_type="mmr", search_kwargs={"k": 4, "fetch_k": 20}
-        )
-        docs = retriever.invoke(question)
+        # Hybrid retrieval (vector + BM25) from the shared cached store.
+        docs = get_retriever().invoke(question)
         # Stream the answer token-by-token; write_stream returns the full text.
         answer = st.write_stream(
             get_answer_chain().stream({"context": docs, "question": question})

@@ -36,6 +36,10 @@ class Settings(BaseSettings):
     # --- Retrieval ---
     top_k: int = 4  # how many chunks to retrieve per query
 
+    # --- Caching ---
+    embedding_cache_dir: str = "data/embedding_cache"
+    llm_cache_path: str = "data/llm_cache.db"
+
 
 # A single shared instance imported across the app.
 settings = Settings()

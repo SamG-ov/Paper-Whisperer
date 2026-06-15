@@ -18,6 +18,8 @@ dist/
 # ---- Vector DB / runtime data (regenerated, machine-specific) ----
 data/chroma/
 data/*.pdf
+data/embedding_cache/
+data/llm_cache.db
 
 # ---- Tooling caches ----
 .pytest_cache/
