@@ -62,4 +62,4 @@ python scripts/ask.py "What problem does this paper solve?"
 ```
 
 > ⚠️ This project uses Gemini's free tier for development. Only upload **public** PDFs —
-> free-tier content may be used to improve Google's models.
+> free-tier content may be used to improve Google's models. 
